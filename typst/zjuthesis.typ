@@ -14,40 +14,37 @@
 //   4. If you don't know how to use GitHub, you can send me an email
 
 #import "template.typ": zjuthesis
-// You can remove some properties to make this file more compact, using their default values
-#zjuthesis(
-  info: (
-    // Debugging Settings
-    PrintFilePath   : false,            // print tex file path for each page
-    // Layout Settings
-    TwoSide         : true,             // set to false if don't need empty pages
-    // Thesis Info
-    StudentName     : "姓名",
-    StudentID       : "学号",
-    AdvisorName     : "指导教师",
-    Grade           : "2020",            // only the year, no '级'
-    Major           : "专业",
-    Department      : "学院",
-    SubmitDate      : "递交日期",
-    MajorFormat     : "general",
-    Degree          : "undergraduate",   // 'undergraduate' or 'graduate'
-    Type            : "thesis",          // 'thesis'   or 'design'
-    Period          : "final",           // 'proposal' or 'paper' or 'final'
-    BlindReview     : false,           // 'false'    or 'true'
-    Language        : "chinese",         // 'chinese'  or 'english'
-    // Graduate Thesis Info
-    GradLevel       : "master",          // 'master' or 'doctor'
-    Topic           : "研究方向",
-    ColaboratorName : "合作导师",
-    // Table of Contents
-    ListOfContents  : true,
-    ListOfFigures   : true,
-    ListOfTables    : true,
-    ListOfAlgorithms: false,
-    // Title
-    Title           : "毕业论文/设计题目",
-    TitleEng        : "{{Graduation Thesis Title}}"
-  )
+#let input = zjuthesis(
+  // Debugging Settings
+  PrintFilePath   : false,            // print tex file path for each page
+  // Layout Settings
+  TwoSide         : true,             // set to false if don't need empty pages
+  // Thesis Info
+  StudentName     : "姓名",
+  StudentID       : "学号",
+  AdvisorName     : "指导教师",
+  Grade           : "2020",            // only the year, no '级'
+  Major           : "专业",
+  Department      : "学院",
+  SubmitDate      : "递交日期",
+  MajorFormat     : "general",
+  Degree          : "undergraduate",   // 'undergraduate' or 'graduate'
+  Type            : "thesis",          // 'thesis'   or 'design'
+  // Period          : "proposal",           // 'proposal' or 'paper' or 'final' // TODO commented for dev purpose
+  BlindReview     : "false",           // 'false'    or 'true'
+  Language        : "chinese",         // 'chinese'  or 'english'
+  // Graduate Thesis Info
+  GradLevel       : "master",          // 'master' or 'doctor'
+  Topic           : "研究方向",
+  ColaboratorName : "合作导师",
+  // Table of Contents
+  ListOfContents  : true,
+  ListOfFigures   : true,
+  ListOfTables    : true,
+  ListOfAlgorithms: false,
+  // Title
+  Title           : "毕业论文/设计题目",
+  TitleEng        : "{{Graduation Thesis Title}}"
 )
 
 // TODO
@@ -65,3 +62,24 @@
 // Uncomment the following lines if you need multi line department names on cover pages
 // \departmenttwolines{学院名第一行}{学院名第二行}
 
+
+// TODO
+// \newcommand{\inputgraduate}
+// {
+//     \coverstyle
+//     \inputpage{cover}
+// 
+//     \prevstyle
+//     \inputpage{previous}
+//     \inputpage{toc}
+//     
+//     // Main contents
+//     \bodystyle
+//     \inputbody{content}
+// 
+//     // Post part
+//     \poststyle
+//     \inputbody{post}
+// }
+
+#input()
