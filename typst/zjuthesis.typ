@@ -24,14 +24,14 @@
   StudentID       : "学号",
   AdvisorName     : "指导教师",
   Grade           : "2020",            // only the year, no '级'
-  Major           : "专业",
-  Department      : "学院",
+  Major           : ("专业", ""),      // Two-line major if second string non empty
+  Department      : ("学院", ""),      // Two-line department if second string non empty
   SubmitDate      : "递交日期",
   MajorFormat     : "general",
   Degree          : "undergraduate",   // 'undergraduate' or 'graduate'
   Type            : "thesis",          // 'thesis'   or 'design'
   // Period          : "proposal",           // 'proposal' or 'paper' or 'final' // TODO commented for dev purpose
-  BlindReview     : "false",           // 'false'    or 'true'
+  BlindReview     : false,           // 'false'    or 'true'
   Language        : "chinese",         // 'chinese'  or 'english'
   // Graduate Thesis Info
   GradLevel       : "master",          // 'master' or 'doctor'

@@ -20,14 +20,11 @@
 #let commands(
   Degree: "",
   Type: "",
-  StudentName: "",
-  StudentID: "",
   ..args,
 ) = {
   if Degree == "undergraduate" {
     (
       inputpage: (
-        ..args,
         period,
         filename,
       ) => {
@@ -62,9 +59,7 @@
         {
           import "../page/undergraduate/" + period + "/" + filename + ".typ": f_content
           f_content(
-            Type: "",
-            StudentName: StudentName,
-            StudentID: StudentID,
+            ..args
           ) 
         }
       },

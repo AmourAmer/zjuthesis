@@ -1,7 +1,14 @@
 #let f_content(
   Type: "",
-  StudentName: "",
-  StudentID: "",
+  StudentName: "MISSING",
+  StudentID: "MISSING",
+  AdvisorName: "MISSING",
+  Major: "MISSING",
+  Grade: "MISSING",
+  Department: "MISSING",
+  MajorFormat: "MISSING",
+  BlindReview: false,
+  ..args
 ) = {
   // TODO
   //\cleardoublepage{}
@@ -40,80 +47,120 @@
 
   v(40pt)
   // TODO
-  //\ifthenelse{\equal{\BlindReview}{true}}
-  //{
-  //    % in blind review
-  //    \begin{center}
-  //        \bfseries \zihao{3}
-  //        \begin{tabularx}{.7\textwidth}{>{\fangsong}l >{\fangsong}X<{\centering}}
-  //            \ifthenelse{\equal{\MajorFormat}{cs}}%
-  //            {%
-  //                \vspace{10.5pt} 学生姓名   & \uline{\hfill} \\
-  //                \vspace{10.5pt} 学生学号   & \uline{\hfill} \\
-  //                \vspace{10.5pt} 指导教师   & \uline{\hfill} \\
-  //                \vspace{10.5pt} 年级与专业 & \uline{\hfill} \\
-  //                所在学院   & \uline{\hfill} \\
-  //            }
-  //            {%
-  //                姓名与学号 & \uline{\hfill} \\
-  //                指导教师   & \uline{\hfill} \\
-  //                年级与专业 & \uline{\hfill} \\
-  //                所在学院   & \uline{\hfill} \\
-  //            }
-  //        \end{tabularx}
-  //    \end{center}
-  //}
-  {
-    // not in blind review
-    align(center)[
-      // TODO \bfseries \zihao{3}
-      // TODO 
-      //\begin{tabularx}{.7\textwidth}{>{\fangsong}l >{\fangsong}X<{\centering}}
-      // I don't know how wide it should be
-      #box(width: 90%)[
-        #grid(
-          columns: (40pt, 1fr),
-        //  \ifthenelse{\equal{\MajorFormat}{cs}}%
-        //  {%
-        //    \vspace{10.5pt} 学生姓名   & \uline{\hfill \StudentName \hfill} \\
-        //    \vspace{10.5pt} 学生学号   & \uline{\hfill \StudentID \hfill} \\
-        //    \vspace{10.5pt} 指导教师   & \uline{\hfill \AdvisorName \hfill} \\
-        //    \vspace{10.5pt} 年级与专业 & \uline{\hfill \mbox{\Grade}级\Major \hfill} \\
-        //    所在学院   & \uline{\hfill \Department \hfill} \\
-        //  }
-          ..if false {
-
-          } else {
+  let uline(content) = rect(width: 100%, stroke: (bottom: black + 0.5pt), content) // 0.5pt seems ok, may not be accurate
+  align(center)[
+    // TODO \bfseries \zihao{3}
+    // TODO \begin{tabularx}{.7\textwidth}{>{\fangsong}l >{\fangsong}X<{\centering}}
+    // I don't know how wide it should be
+    // TODO 这重复得也太多了！应该整成一个函数的，`name = BlindReview?"":name`之类的，没错，所以BlindReview的时候就先不处理了
+    #box(width: 90%)[
+      #grid(
+        columns: (40pt, 1fr),
+        ..if BlindReview {
+          //// in blind review
+          //// 感觉要么这个文件该裂开出一个page/undergraduate/proposal/major/cs/cover.typ
+          //// 要么就该合并major这类文件夹
+          //// 或者写一个patch
+          //    \ifthenelse{\equal{\MajorFormat}{cs}}%
+          //    {%
+          //      \vspace{10.5pt} 学生姓名   & \uline{\hfill} \\
+          //      \vspace{10.5pt} 学生学号   & \uline{\hfill} \\
+          //      \vspace{10.5pt} 指导教师   & \uline{\hfill} \\
+          //      \vspace{10.5pt} 年级与专业 & \uline{\hfill} \\
+          //      所在学院   & \uline{\hfill} \\
+          //    }
+          //    {%
+          //      姓名与学号 & \uline{\hfill} \\
+          //      指导教师   & \uline{\hfill} \\
+          //      年级与专业 & \uline{\hfill} \\
+          //      所在学院   & \uline{\hfill} \\
+          //    }
+          //  \end{tabularx}
+          //\end{center}
+        } else {
+          // not in blind review
+          if MajorFormat == "cs" {
+            // TODO not tested
+            (
+              [
+                #v(10.5pt)
+                学生姓名
+              ],
+              uline[
+                #StudentName
+              ],
+              [
+                #v(10.5pt)
+                学生学号
+              ],
+              uline[
+                #StudentID
+              ],
+              [
+                #v(10.5pt)
+                指导教师
+              ],
+              uline(AdvisorName),
+              [
+                #v(10.5pt)
+                年级与专业
+              ],
+              uline[
+                #box(Grade)级
+                #Major.at(0)
+              ],
+              .. if Major.at(1).len() > 0 {
+                (
+                  [],
+                  uline(Major.at(1))
+                )
+              },
+              [所在学院],
+              uline[
+                #Department.at(0)
+              ],
+              .. if Department.at(1).len() > 0 {
+                (
+                  [],
+                  uline(Department.at(1))
+                )
+              },
+            )
+            } else {
             (
               [姓名与学号],
-              underline[
+              uline[
                 // I don't know why this automatically puts itself in the center, 
-                // so hfills omitted. But underline in the remaining sapce is a 
-                // problem.
+                // so hfills omitted. 
                 #StudentName~#StudentID
-              ]
+              ],
+              [指导教师],
+              uline(AdvisorName),
+              [年级与专业],
+              uline[
+                #box(Grade)级
+                #Major.at(0)
+              ],
+              .. if Major.at(1).len() > 0 {
+                (
+                  [],
+                  uline(Major.at(1))
+                )
+              },
+              [所在学院],
+              uline[
+                #Department.at(0)
+              ],
+              .. if Department.at(1).len() > 0 {
+                (
+                  [],
+                  uline(Department.at(1))
+                )
+              },
             )
-            //指导教师   //& \uline{\hfill \AdvisorName \hfill}            \\
-            //\ifthenelse{\equal{\MajorLines}{1}}
-            //{%   MajorLines == 1
-            //年级与专业    &  \uline{\hfill \mbox{\Grade}级\Major \hfill} \\
-            //}
-            //{%   MajorLines == 2
-            //年级与专业    &  \uline{\hfill \mbox{\Grade}级\MajorLineOne \hfill} \\
-            //            &  \uline{\hfill \MajorLineTwo \hfill} \\
-            //}
-            //\ifthenelse{\equal{\DepartmentLines}{1}}
-            //{%   DepartmentLines == 1
-            //所在学院    &  \uline{\hfill \Department \hfill} \\
-            //}
-            //{%   DepartmentLines == 2
-            //所在学院    &  \uline{\hfill \DepartmentLineOne \hfill} \\
-            //            &  \uline{\hfill \DepartmentLineTwo \hfill} \\
-            //}
           }
-        )
-      //\end{tabularx}
-      ]
+        }
+      )
     ]
-  }
+  ]
 }

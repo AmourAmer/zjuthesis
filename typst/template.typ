@@ -13,7 +13,6 @@
   let (inputpage,) = commands(
     Degree: Degree,
     // Maybe some args are not needed to be passed, but I don't know which
-    Period: Period,
     ..args
   )
 
