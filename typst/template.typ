@@ -67,7 +67,7 @@
     //
     //    // 'proposal' previous part uses 'empty' page style,
     //    // as shown in cs undergrad template.
-    //    \inputpage{proposal}{previous}
+      inputpage("proposal", "previous")
     //    
     //    \prevstyle
     //    \inputpage{proposal}{toc}

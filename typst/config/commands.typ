@@ -59,9 +59,23 @@
         {
           import "../page/undergraduate/" + period + "/" + filename + ".typ": f_content
           f_content(
+            Degree: Degree,
+            Type: Type,
             ..args
           ) 
         }
+      },
+      signature: (content) => {
+      [搁着签字]
+      // TODO
+// \newcommand{\signature}[1]
+// {
+//     \begin{flushright}
+//         \bfseries \zihao{-4}
+//         #1 \underline{\multido{}{5}{\quad}} \\
+//         \quad 年 \quad 月 \quad 日
+//     \end{flushright}
+// }
       },
     )
   //    \newcommand{\inputbody}[1]{\input{./body/undergraduate/#1}}
@@ -167,14 +181,6 @@
 // 
 // \ifthenelse{\equal{\Degree}{undergraduate}}
 // {
-// \newcommand{\signature}[1]
-// {
-//     \begin{flushright}
-//         \bfseries \zihao{-4}
-//         #1 \underline{\multido{}{5}{\quad}} \\
-//         \quad 年 \quad 月 \quad 日
-//     \end{flushright}
-// }
 // 
 // \DeclareDocumentCommand{\finaleval}{O{~} O{~} O{~} O{~} O{~}}
 // {
