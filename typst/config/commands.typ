@@ -4,25 +4,41 @@
 // \newcommand{\ifbooltrue}[2]{\ifthenelse{\boolean{#1}}{#2}{}}
 // \newcommand{\ifboolfalse}[2]{\ifthenelse{\boolean{#1}}{}{#2}}
 // 
-// \ifthenelse{\equal{\TwoSide}{true}}
-// {
-//     // TwoSide settings
-//     // Use default `\cleardoublepage'
-// }
-// {
-//     // OneSide settings
-//     \renewcommand{\cleardoublepage}{\clearpage}
-// }
-// 
-// \newcommand{\bful}[1]{{\bfseries\uline{#1}}}
 
 // Commands to input body pages
 #let commands(
   Degree: "",
   Type: "",
+  TwoSide: true,
+  Language: "chinese",
   ..args,
 ) = {
-  if Degree == "undergraduate" {
+  let clearpage = () => pagebreak()
+  (
+    clearpage: clearpage,
+    cleardoublepage: () => if TwoSide {
+        // TwoSide settings
+        // Line below from https://github.com/nju-lug/nju-thesis-typst/templates/acknowledgement.typ, OrangeX4, MIT
+        pagebreak(weak: true, to: if TwoSide { "odd" }) 
+        // I don't know whether we should pass weak here
+      } else { 
+        // OneSide settings
+        clearpage()
+      }, 
+
+    // TODO
+    // Built-in latex func re-impl 
+    tableofcontents: () => {
+      outline(
+        title: if Language == "chinese" {
+          "目录"
+        } else {
+          "List of Contents"
+        }
+      )
+    },
+  // \newcommand{\bful}[1]{{\bfseries\uline{#1}}}
+  ) + if Degree == "undergraduate" {
     (
       inputpage: (
         period,
@@ -61,6 +77,7 @@
           f_content(
             Degree: Degree,
             Type: Type,
+            TwoSide: TwoSide,
             ..args
           ) 
         }
@@ -68,17 +85,21 @@
       signature: (content) => {
       [搁着签字]
       // TODO
-// \newcommand{\signature}[1]
-// {
-//     \begin{flushright}
-//         \bfseries \zihao{-4}
-//         #1 \underline{\multido{}{5}{\quad}} \\
-//         \quad 年 \quad 月 \quad 日
-//     \end{flushright}
-// }
+      // \newcommand{\signature}[1]
+      // {
+      //     \begin{flushright}
+      //         \bfseries \zihao{-4}
+      //         #1 \underline{\multido{}{5}{\quad}} \\
+      //         \quad 年 \quad 月 \quad 日
+      //     \end{flushright}
+      // }
       },
+    ) + (
+      inputbody: (file) => {
+        // \newcommand{\inputbody}[1]{\input{./body/undergraduate/#1}}
+        include "./body/undergraduate/" + file
+      }
     )
-  //    \newcommand{\inputbody}[1]{\input{./body/undergraduate/#1}}
 
   //    // TODO: how to switch to \section* without breaking current formats?
   //    \newcommand{\chapternonum}[1]

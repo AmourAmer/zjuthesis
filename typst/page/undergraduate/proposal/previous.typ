@@ -5,10 +5,10 @@
   ..args
 ) = {
   // 好奇怪啊，这样重复是合适的么？
-  let (inputpage,) = commands(
+  let (cleardoublepage, inputpage,) = commands(
     Type: Type,
     ..args
   )
-  // TODO \cleardoublepage
+  cleardoublepage()
   inputpage("proposal", Type + "/previous")
 }

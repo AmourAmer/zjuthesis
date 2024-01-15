@@ -70,7 +70,7 @@
       inputpage("proposal", "previous")
     //    
     //    \prevstyle
-    //    \inputpage{proposal}{toc}
+      inputpage("proposal", "toc")
     //
     //    \bodystyle
     //    \inputbody{proposal/content}
