@@ -78,6 +78,7 @@
             Degree: Degree,
             Type: Type,
             TwoSide: TwoSide,
+            Language: Language,
             ..args
           ) 
         }
@@ -95,9 +96,15 @@
       // }
       },
     ) + (
-      inputbody: (file) => {
-        // \newcommand{\inputbody}[1]{\input{./body/undergraduate/#1}}
-        include "./body/undergraduate/" + file
+      inputbody: (filename) => {
+        import "../body/undergraduate/" + filename + ".typ": f_content
+        f_content(
+          Degree: Degree,
+          Type: Type,
+          TwoSide: TwoSide,
+          Language: Language,
+          ..args
+        ) 
       }
     )
 

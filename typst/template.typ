@@ -10,7 +10,7 @@
   ..args
 ) = {
   // important: COMMA!!! It took me hrs
-  let (inputpage,) = commands(
+  let (inputpage, inputbody) = commands(
     Degree: Degree,
     // Maybe some args are not needed to be passed, but I don't know which
     ..args
@@ -73,7 +73,7 @@
       inputpage("proposal", "toc")
     //
     //    \bodystyle
-    //    \inputbody{proposal/content}
+      inputbody("proposal/content")
     //    
     //    \poststyle
     //    \inputpage{proposal}{post}
