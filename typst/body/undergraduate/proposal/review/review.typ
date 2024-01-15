@@ -1,14 +1,8 @@
 #import "../../../../config/commands.typ": commands
 
-#let f_content(
-  ..args
-) = {
-  let (cleardoublepage,) = commands(
-    ..args
-  )
-  cleardoublepage()
-  // \newrefsection
-  [
+#let (cleardoublepage,) = commands()
+#cleardoublepage()
+// \newrefsection
 = 文献综述
 
 == 背景介绍
@@ -33,5 +27,3 @@
 //     \linespreadsingle{}
 //     \printbibliography[title={参考文献}]
 // \endgroup
-  ]
-}

@@ -1,22 +1,15 @@
 // Got some idea from https://github.com/nju-lug/nju-thesis-typst/{nju-thesis/template.typ,thesis.typ}
 
-
 #import "./config/commands.typ": commands
+#import "./args.typ": args
 // TODO fully merge cls
 
 #let zjuthesis(
-  Degree: "undergraduate",
-  Period: "proposal",
-  ..args
 ) = {
-  // important: COMMA!!! It took me hrs
-  let (inputpage, inputbody) = commands(
-    Degree: Degree,
-    // Maybe some args are not needed to be passed, but I don't know which
-    ..args
-  )
+  let (Degree, Period,) = args
+  let (inputpage, inputbody,) = commands()
 
-  let inputundergraduate(..args) = {
+  let inputundergraduate() = {
     if Period == "final" {
       // TODO
       //    // Final thesis
@@ -105,13 +98,13 @@
 //    }
   }
     
-  let inputgraduate(..args) = {}
+  let inputgraduate() = {}
 
-  () => if Degree == "undergraduate" {
-    inputundergraduate(..args)
+  if Degree == "undergraduate" {
+    inputundergraduate()
   } else {
     [DEBUG Y]
-    inputgraduate(..args)
+    inputgraduate()
     // TODO
     // \inputgraduate{}
   }

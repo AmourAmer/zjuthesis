@@ -1,3 +1,4 @@
+#import "../args.typ": args
 // TODO: convert fully to typst
 // // common commands
 // 
@@ -6,15 +7,10 @@
 // 
 
 // Commands to input body pages
-#let commands(
-  Degree: "",
-  Type: "",
-  TwoSide: true,
-  Language: "chinese",
-  ..args,
-) = {
+#let commands() = {
+  let (Degree, Type, TwoSide, Language,) = args
   let clearpage = () => pagebreak()
-  (
+  ( args: args ) + (
     clearpage: clearpage,
     cleardoublepage: () => if TwoSide {
         // TwoSide settings
@@ -73,14 +69,7 @@
         //    \input{./page/undergraduate/#1/major/\MajorFormat/#2}
         //}
         {
-          import "../page/undergraduate/" + period + "/" + filename + ".typ": f_content
-          f_content(
-            Degree: Degree,
-            Type: Type,
-            TwoSide: TwoSide,
-            Language: Language,
-            ..args
-          ) 
+          include "../page/undergraduate/" + period + "/" + filename + ".typ"
         }
       },
       signature: (content) => {
@@ -97,14 +86,7 @@
       },
     ) + (
       inputbody: (filename) => {
-        import "../body/undergraduate/" + filename + ".typ": f_content
-        f_content(
-          Degree: Degree,
-          Type: Type,
-          TwoSide: TwoSide,
-          Language: Language,
-          ..args
-        ) 
+        include "../body/undergraduate/" + filename + ".typ"
       }
     )
 
